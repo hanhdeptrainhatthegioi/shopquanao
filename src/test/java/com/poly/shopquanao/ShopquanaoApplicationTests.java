@@ -8,6 +8,7 @@ class ShopquanaoApplicationTests {
 
     @Test
     void contextLoads() {
+
     }
 
 }

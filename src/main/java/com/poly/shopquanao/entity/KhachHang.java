@@ -1,4 +1,24 @@
 package com.poly.shopquanao.entity;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Table(name = "khach_hang")
+@Getter
+@Setter
 public class KhachHang {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "ma_khach_hang")
+    private String maKhachHang;
+
+    @Column(name = "ten_dang_nhap")
+    private String tenDangNhap;
+
+    @Column(name = "mat_khau")
+    private String matKhau;
 }
