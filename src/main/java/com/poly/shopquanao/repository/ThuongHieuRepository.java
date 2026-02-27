@@ -1,4 +1,8 @@
 package com.poly.shopquanao.repository;
 
-public class ThuongHieuRepository {
+import com.poly.shopquanao.entity.ThuongHieu;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ThuongHieuRepository
+        extends JpaRepository<ThuongHieu, Integer> {
 }

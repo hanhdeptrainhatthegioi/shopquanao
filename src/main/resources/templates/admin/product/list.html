@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quản lý sản phẩm</title>
+</head>
+<body>
+
+<h2>Danh sách sản phẩm</h2>
+
+<a href="/admin/products/create">➕ Thêm mới</a>
+
+<br><br>
+
+<table border="1" cellpadding="10">
+
+    <tr>
+        <th>ID</th>
+        <th>Mã</th>
+        <th>Tên</th>
+        <th>Thương hiệu</th>
+        <th>Danh mục</th>
+        <th>Trạng thái</th>
+        <th>Hành động</th>
+    </tr>
+
+    <tr th:each="sp : ${list}">
+
+        <td th:text="${sp.id}"></td>
+        <td th:text="${sp.maSanPham}"></td>
+        <td th:text="${sp.tenSanPham}"></td>
+
+        <td th:text="${sp.thuongHieu.tenThuongHieu}"></td>
+        <td th:text="${sp.danhMuc.tenDanhMuc}"></td>
+
+        <td th:text="${sp.trangThai ? 'Đang bán' : 'Ngừng bán'}"></td>
+
+        <td>
+            <a th:href="@{/admin/products/edit/{id}(id=${sp.id})}">Sửa</a>
+            |
+            <a th:href="@{/admin/products/delete/{id}(id=${sp.id})}"
+               onclick="return confirm('Xóa?')">Xóa</a>
+        </td>
+
+    </tr>
+
+</table>
+
+</body>
+</html>

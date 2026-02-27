@@ -15,5 +15,20 @@ public class EncodePassword {
         System.out.println("BCrypt = " + hash);
     }
 }
+/*vu trinh hoang anh
+        dang nhap dang ki
+        quan ly san pham
+        giai doan 1
+:>dang nhap phan quyen
+        quan ly san pham
+        upload san pham
+giai doan 2
+:> gio hang
+        dat hang
+                thanh toan
+                        giai doan 3
+:> khuyen mai vocher
+thong ke bao cao
+        hoan thien ui */
 
 
