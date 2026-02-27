@@ -9,13 +9,14 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class DanhMuc {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "ten_danh_muc")
+    @Column(name = "ten_danh_muc", unique = true)
     private String tenDanhMuc;
 
     @Column(name = "trang_thai")
