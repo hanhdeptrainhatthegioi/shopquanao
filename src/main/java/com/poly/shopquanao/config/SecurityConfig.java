@@ -32,29 +32,27 @@ public class SecurityConfig {
                         // Public
                         .requestMatchers(
                                 "/",
-                                "/home",
-                                "/register",
                                 "/login",
+                                "/register",
                                 "/css/**",
                                 "/js/**",
                                 "/images/**"
                         ).permitAll()
 
-                        // Admin
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        // Admin + Staff
+                        .requestMatchers("/admin/**")
+                        .hasAnyRole("ADMIN", "STAFF")
 
-                        // User
-                        .requestMatchers("/user/**").hasRole("USER")
+                        // Shop - chỉ cần đăng nhập
+                        .requestMatchers("/shop/**")
+                        .authenticated()
 
                         .anyRequest().authenticated()
                 )
 
                 .formLogin(login -> login
                         .loginPage("/login")
-
-                        // 🔥 QUAN TRỌNG
                         .loginProcessingUrl("/login")
-
                         .defaultSuccessUrl("/redirect", true)
                         .failureUrl("/login?error")
                         .permitAll()
@@ -66,10 +64,8 @@ public class SecurityConfig {
                         .permitAll()
                 )
 
-                // 🔥 GẮN DB AUTH
                 .userDetailsService(customUserDetailService);
 
         return http.build();
     }
-
 }

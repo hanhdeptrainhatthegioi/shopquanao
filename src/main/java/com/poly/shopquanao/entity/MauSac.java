@@ -15,9 +15,9 @@ public class MauSac {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "ten_mau", unique = true)
+    @Column(name = "ten_mau", unique = true, nullable = false)
     private String tenMau;
 
-    @Column(name = "trang_thai")
+    @Column(name = "trang_thai", nullable = false)
     private Boolean trangThai;
 }

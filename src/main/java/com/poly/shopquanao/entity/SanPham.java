@@ -2,6 +2,8 @@ package com.poly.shopquanao.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "san_pham")
 @Getter
@@ -21,18 +23,21 @@ public class SanPham {
     @Column(name = "ten_san_pham")
     private String tenSanPham;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "thuong_hieu_id")
     private ThuongHieu thuongHieu;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "danh_muc_id")
     private DanhMuc danhMuc;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_lieu_id")
     private ChatLieu chatLieu;
 
     @Column(name = "trang_thai")
     private Boolean trangThai;
+
+    @OneToMany(mappedBy = "sanPham", fetch = FetchType.LAZY)
+    private List<SanPhamChiTiet> chiTietList;
 }

@@ -1,6 +1,9 @@
 package com.poly.shopquanao.entity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "gio_hang")
 @Getter
@@ -14,10 +17,10 @@ public class GioHang {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "khach_hang_id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "khach_hang_id", nullable = false)
     private KhachHang khachHang;
 
-    @Column(name = "ngay_tao")
-    private java.time.LocalDateTime ngayTao;
+    @Column(name = "ngay_tao", nullable = false)
+    private LocalDateTime ngayTao;
 }

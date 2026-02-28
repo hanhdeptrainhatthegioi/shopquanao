@@ -16,10 +16,12 @@ public class AuthController {
     public String redirectAfterLogin(Authentication auth) {
 
         if (auth.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")
+                        || a.getAuthority().equals("ROLE_STAFF"))) {
             return "redirect:/admin/dashboard";
         }
 
-        return "redirect:/home";
+        // Không có role => khách hàng
+        return "redirect:/shop/home";
     }
 }

@@ -3,32 +3,28 @@ package com.poly.shopquanao.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
+
 
 @Entity
-@Table(name = "don_hang_chi_tiet")
+@Table(name = "san_pham_hinh_anh")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DonHangChiTiet {
+public class SanPhamHinhAnh {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "don_hang_id", nullable = false)
-    private DonHang donHang;
-
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "san_pham_chi_tiet_id", nullable = false)
     private SanPhamChiTiet sanPhamChiTiet;
 
-    @Column(name = "so_luong", nullable = false)
-    private Integer soLuong;
+    @Column(name = "duong_dan", nullable = false)
+    private String duongDan;
 
-    @Column(name = "don_gia", nullable = false)
-    private Double donGia;
+    @Column(name = "anh_chinh", nullable = false)
+    private Boolean anhChinh;
 }

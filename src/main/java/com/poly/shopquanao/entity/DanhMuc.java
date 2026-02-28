@@ -15,7 +15,7 @@ public class DanhMuc {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "ten_danh_muc", unique = true)
+    @Column(name = "ten_danh_muc", unique = true, nullable = false)
     private String tenDanhMuc;
 
     @Column(name = "trang_thai")

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sản phẩm</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .product-card {
+            transition: 0.3s;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #dc3545;
+        }
+
+        .stock {
+            font-size: 14px;
+            color: gray;
+        }
+
+        .add-btn {
+            border-radius: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">Shop Quần Áo</a>
+
+        <div class="ms-auto">
+            <a class="btn btn-outline-light me-2" th:href="@{/cart}">
+                🛒 Giỏ hàng
+            </a>
+            <a class="btn btn-danger" th:href="@{/logout}">
+                Đăng xuất
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- CONTENT -->
+<div class="container mt-4">
+
+    <h2 class="mb-4 text-center">Danh sách sản phẩm</h2>
+
+    <div class="row">
+
+        <div class="col-md-4 col-lg-3 mb-4"
+             th:each="sp : ${list}">
+
+            <div class="card product-card h-100">
+
+                <img src="https://via.placeholder.com/300x300"
+                     class="card-img-top"
+                     alt="product">
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="card-title"
+                        th:text="${sp.tenSanPham}">
+                    </h5>
+
+                    <!-- CHỌN MÀU -->
+                    <div class="mb-2">
+                        <label>Màu:</label>
+                        <select class="form-select color-select"
+                                th:attr="data-id=${sp.id}">
+                            <option th:each="ct : ${sp.chiTietList}"
+                                    th:value="${ct.id}"
+                                    th:text="${ct.mauSac.tenMau}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- CHỌN SIZE -->
+                    <div class="mb-2">
+                        <label>Size:</label>
+                        <select class="form-select size-select"
+                                th:attr="data-id=${sp.id}">
+                            <option th:each="ct : ${sp.chiTietList}"
+                                    th:value="${ct.id}"
+                                    th:text="${ct.kichCo.tenKichCo}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- CHỌN KIỂU ÁO -->
+                    <div class="mb-2">
+                        <label>Kiểu áo:</label>
+                        <select class="form-select style-select"
+                                th:attr="data-id=${sp.id}">
+                            <option th:each="ct : ${sp.chiTietList}"
+                                    th:value="${ct.id}"
+                                    th:text="${ct.kieuAo.tenKieuAo}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- GIÁ -->
+                    <p class="price mt-2">
+                        Giá:
+                        <span class="price-value"
+                              th:attr="data-id=${sp.id}">
+                    ---
+                </span>
+                    </p>
+
+                    <!-- TỒN KHO -->
+                    <p class="stock">
+                        Còn lại:
+                        <span class="stock-value"
+                              th:attr="data-id=${sp.id}">
+                    ---
+                </span>
+                    </p>
+
+                    <!-- FORM -->
+                    <form th:action="@{/cart/add}" method="post" class="mt-auto">
+
+                        <input type="hidden"
+                               name="spId"
+                               class="sp-hidden-id"
+                               th:value="${sp.chiTietList[0].id}"
+                               th:attr="data-id=${sp.id}" />
+
+                        <div class="input-group mb-2">
+                            <input type="number"
+                                   name="quantity"
+                                   value="1"
+                                   min="1"
+                                   class="form-control">
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary w-100 add-btn">
+                            Thêm vào giỏ
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    const products = /*[[${list}]]*/ [];
+
+    document.querySelectorAll(".color-select, .size-select, .style-select")
+        .forEach(select => {
+
+            select.addEventListener("change", function () {
+
+                const productId = this.dataset.id;
+
+                const colorId = document.querySelector(".color-select[data-id='"+productId+"']").value;
+                const sizeId = document.querySelector(".size-select[data-id='"+productId+"']").value;
+                const styleId = document.querySelector(".style-select[data-id='"+productId+"']").value;
+
+                updateProduct(productId, colorId, sizeId, styleId);
+            });
+
+            // load mặc định
+            const productId = select.dataset.id;
+            const colorId = document.querySelector(".color-select[data-id='"+productId+"']").value;
+            const sizeId = document.querySelector(".size-select[data-id='"+productId+"']").value;
+            const styleId = document.querySelector(".style-select[data-id='"+productId+"']").value;
+
+            updateProduct(productId, colorId, sizeId, styleId);
+        });
+
+    function updateProduct(productId, colorId, sizeId, styleId) {
+
+        let product = products.find(p => p.id == productId);
+
+        let chiTiet = product.chiTietList.find(c =>
+            c.mauSac.id == colorId &&
+            c.kichCo.id == sizeId &&
+            c.kieuAo.id == styleId
+        );
+
+        if(!chiTiet) return;
+
+        document.querySelector(".price-value[data-id='"+productId+"']")
+            .innerText = chiTiet.giaBan.toLocaleString() + " VND";
+
+        document.querySelector(".stock-value[data-id='"+productId+"']")
+            .innerText = chiTiet.soLuong;
+
+        document.querySelector(".sp-hidden-id[data-id='"+productId+"']")
+            .value = chiTiet.id;
+    }
+</script>
+</body>
+</html>

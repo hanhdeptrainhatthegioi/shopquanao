@@ -16,7 +16,7 @@ public class ChatLieu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "ten_chat_lieu", unique = true)
+    @Column(name = "ten_chat_lieu", unique = true, nullable = false)
     private String tenChatLieu;
 
     @Column(name = "trang_thai")
